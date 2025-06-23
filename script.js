@@ -235,7 +235,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize the presentation
     showSlide(0);
 });
-
-    // Inicializa la presentación
-    showSlide(0);
-});
