@@ -66,14 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
             [3, 45, 10, 10, 13],
             [20, 20, 60, 60, 'youtube']
         ],
-        15: [
-            [3, 3, 10, 10, 1], 
+      15: [
+            [3, 3, 10, 10, 1], // Flecha izquierda superior a Slide2 (índice 1) - SIN CAMBIOS
 
-            [35, 33, 30, 15, 'https://www.facebook.com/cetis107oficial/'],
+            // Hotspot para FACEBOOK (el de arriba)
+            // Calculado a partir de la imagen: centrado sobre el logo y texto de Facebook
+            [25, 32, 50, 15, 'https://www.facebook.com/cetis107oficial/'],
 
-            [35, 50, 30, 15, 'https://www.instagram.com/cetis107oficial/'],
+            // Hotspot para INSTAGRAM (el de en medio)
+            // Calculado a partir de la imagen: centrado sobre el logo y texto de Instagram
+            [25, 49, 50, 15, 'https://www.instagram.com/cetis107oficial/'],
 
-            [35, 68, 30, 15, 'https://x.com/cetis107']
+            // Hotspot para X/TWITTER (el de abajo)
+            // Calculado a partir de la imagen: centrado sobre el logo y texto de Twitter/X
+            [25, 66, 50, 15, 'https://x.com/cetis107']
 
         ]
     };
