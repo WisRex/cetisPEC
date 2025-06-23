@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const presentationContainer = document.getElementById('presentation-container');
     const clickableOverlay = document.getElementById('clickable-overlay');
 
-    const youtubeVideoId = 'dQw4w9WgXcQ';
+    const youtubeVideoId = 'Ytfg1NRHtqg';
 
     // Ruta a tu archivo de sonido de clic
     const clickSoundPath = 'audio/click.mp3'; // <-- ¡AJUSTA ESTA RUTA SI ES DIFERENTE!
