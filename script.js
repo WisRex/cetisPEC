@@ -1,206 +1,212 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- CONFIGURACIÓN DE LAS DIAPOSITIVAS ---
+    // --- SLIDES CONFIGURATION ---
+    // Ensure this list contains the CORRECT paths to your 16 images.
+    // File names must match exactly (e.g., 'Slide1.JPG').
+    // The 'slides/' folder is where you uploaded them on GitHub.
     const slides = [
-        'slides/Slide1.JPG',  // Índice 0
-        'slides/Slide2.JPG',  // Índice 1
-        'slides/Slide3.JPG',  // Índice 2
-        'slides/Slide4.JPG',  // Índice 3
-        'slides/Slide5.JPG',  // Índice 4
-        'slides/Slide6.JPG',  // Índice 5
-        'slides/Slide7.JPG',  // Índice 6
-        'slides/Slide8.JPG',  // Índice 7
-        'slides/Slide9.JPG',  // Índice 8
-        'slides/Slide10.JPG', // Índice 9
-        'slides/Slide11.JPG', // Índice 10
-        'slides/Slide12.JPG', // Índice 11
-        'slides/Slide13.JPG', // Índice 12
-        'slides/Slide14.JPG', // Índice 13
-        'slides/Slide15.JPG', // Índice 14 - Diapositiva del video
-        'slides/Slide16.JPG'  // Índice 15 - Diapositiva de redes sociales
+        'slides/Slide1.JPG',  // Index 0
+        'slides/Slide2.JPG',  // Index 1
+        'slides/Slide3.JPG',  // Index 2
+        'slides/Slide4.JPG',  // Index 3
+        'slides/Slide5.JPG',  // Index 4
+        'slides/Slide6.JPG',  // Index 5
+        'slides/Slide7.JPG',  // Index 6
+        'slides/Slide8.JPG',  // Index 7
+        'slides/Slide9.JPG',  // Index 8
+        'slides/Slide10.JPG', // Index 9
+        'slides/Slide11.JPG', // Index 10
+        'slides/Slide12.JPG', // Index 11
+        'slides/Slide13.JPG', // Index 12
+        'slides/Slide14.JPG', // Index 13
+        'slides/Slide15.JPG', // Index 14 - Video slide
+        'slides/Slide16.JPG'  // Index 15 - Social media slide
     ];
 
     let currentSlideIndex = 0;
     const currentSlideElement = document.getElementById('current-slide');
     const presentationContainer = document.getElementById('presentation-container');
-    // const clickableOverlay = document.getElementById('clickable-overlay'); // Ya no necesitamos el overlay para detectar clicks generales
+    const clickableOverlay = document.getElementById('clickable-overlay'); // Still referenced for pointer-events: none in CSS
 
-    // --- CONFIGURACIÓN DEL VIDEO DE YOUTUBE ---
-    // ¡IMPORTANTE!: Reemplaza 'dQw4w9WgXcQ' con el ID real de tu video de YouTube.
-    // Ejemplo de ID real: Si tu URL es https://www.youtube.com/watch?v=dQw4w9WgXcQ, el ID es dQw4w9WgXcQ
-    const youtubeVideoId = 'dQw4w9WgXcQ'; // <-- ¡CAMBIA ESTO CON EL ID REAL DE TU VIDEO!
+    // --- YOUTUBE VIDEO CONFIGURATION ---
+    // IMPORTANT!: Replace 'dQw4w9WgXcQ' with the actual ID of your YouTube video.
+    // Example: If your URL is https://www.youtube.com/watch?v=YOUR_VIDEO_ID, then YOUR_VIDEO_ID is what you need.
+    const youtubeVideoId = 'dQw4w9WgXcQ'; // <-- CHANGE THIS TO YOUR ACTUAL VIDEO ID!
 
-    // --- MAPA DE INTERACCIONES Y COORDENADAS ---
-    // Define las áreas clicables y sus destinos para cada diapositiva.
-    // Las coordenadas (x, y, width, height) son porcentajes del tamaño de la imagen.
-    // Son estimaciones basadas en tu PPTX y el formato 16:9. Pueden requerir un ajuste fino.
-    // Formato: [left_percent, top_percent, width_percent, height_percent, target_slide_index_or_url_string]
+    // --- INTERACTION HOTSPOT MAP ---
+    // Defines clickable areas and their destinations for each slide.
+    // Coordinates (x, y, width, height) are percentages of the image size (based on 1280x720).
+    // Format: [left_percent, top_percent, width_percent, height_percent, target_slide_index_or_url_string]
     const slideHotspots = {
-        // Diapositiva 1 (Índice 0): "Proyecto Escolar Comunitario"
+        // Slide 1 (Index 0): "Proyecto Escolar Comunitario"
         0: [
-            // Flecha de abajo (Click Aqui!) - Aprox. centro inferior
-            [40, 80, 20, 10, 1] // Ir a Slide2 (índice 1)
+            // "Click Aqui!" arrow at the bottom center
+            [40, 80, 20, 10, 1] // Go to Slide2 (index 1)
         ],
-        // Diapositiva 2 (Índice 1): "Áreas de este proyecto..."
+        // Slide 2 (Index 1): "Áreas de este proyecto..."
         1: [
-            // Flecha izquierda superior
-            [5, 5, 10, 10, 0], // Ir a Slide1 (índice 0)
-            // Flecha derecha superior
-            [85, 5, 10, 10, 15], // Ir a Slide16 (índice 15)
-            // "Áreas de este proyecto..." (rectángulo central superior)
-            [25, 35, 50, 10, 2], // Ir a Slide3 (índice 2)
-            // "¿Qué aprendimos de este proyecto?" (rectángulo central medio)
-            [25, 50, 50, 10, 12], // Ir a Slide13 (índice 12)
-            // "Sobre nosotros" (rectángulo central inferior)
-            [25, 65, 50, 10, 13]  // Ir a Slide14 (índice 13)
+            // Top-left arrow
+            [3, 3, 10, 10, 0], // Go to Slide1 (index 0)
+            // Top-right arrow
+            [87, 3, 10, 10, 15], // Go to Slide16 (index 15)
+            // "Áreas de este proyecto..." box
+            [25, 34, 50, 12, 2], // Go to Slide3 (index 2)
+            // "¿Qué aprendimos de este proyecto?" box
+            [25, 49, 50, 12, 12], // Go to Slide13 (index 12)
+            // "Sobre nosotros" box
+            [25, 64, 50, 12, 13]  // Go to Slide14 (index 13)
         ],
-        // Diapositiva 3 (Índice 2): "SEMILLAS DE CAMBIO." (RECOLECCION, BRED, Consintiendo)
+        // Slide 3 (Index 2): "SEMILLAS DE CAMBIO." (RECOLECCION, BRED, Consintiendo)
         2: [
-            // Flecha izquierda superior
-            [5, 5, 10, 10, 1], // Ir a Slide2 (índice 1)
-            // RECOLECCION DE PLASTICO - ¿En que consistió?
-            [5, 45, 25, 10, 5],  // Ir a Slide6 (índice 5)
-            // RECOLECCION DE PLASTICO - Organización
-            [5, 55, 25, 10, 4],  // Ir a Slide5 (índice 4)
-            // RECOLECCION DE PLASTICO - Propósito
-            [5, 65, 25, 10, 3],  // Ir a Slide4 (índice 3)
-            // BRED - ¿En que consistió?
-            [37, 45, 25, 10, 7], // Ir a Slide8 (índice 7)
-            // BRED - Organización
-            [37, 55, 25, 10, 6], // Ir a Slide7 (índice 6)
-            // BRED - Propósito
-            [37, 65, 25, 10, 8], // Ir a Slide9 (índice 8)
-            // Consintiendo a un abuel@ - ¿En que consistió?
-            [68, 45, 25, 10, 9], // Ir a Slide10 (índice 9)
-            // Consintiendo a un abuel@ - Organización
-            [68, 55, 25, 10, 10], // Ir a Slide11 (índice 10)
-            // Consintiendo a un abuel@ - Propósito
-            [68, 65, 25, 10, 11]  // Ir a Slide12 (índice 11)
+            // Top-left arrow
+            [3, 3, 10, 10, 1], // Go to Slide2 (index 1)
+            // RECOLECCION DE PLASTICO - "¿En qué consistió?"
+            [3, 44, 30, 8, 5],  // Go to Slide6 (index 5)
+            // RECOLECCION DE PLASTICO - "Organización"
+            [3, 54, 30, 8, 4],  // Go to Slide5 (index 4)
+            // RECOLECCION DE PLASTICO - "Propósito"
+            [3, 64, 30, 8, 3],  // Go to Slide4 (index 3)
+            // BRED - "¿En qué consistió?"
+            [35, 44, 30, 8, 7], // Go to Slide8 (index 7)
+            // BRED - "Organización"
+            [35, 54, 30, 8, 6], // Go to Slide7 (index 6)
+            // BRED - "Propósito"
+            [35, 64, 30, 8, 8], // Go to Slide9 (index 8)
+            // Consintiendo a un abuel@ - "¿En qué consistió?"
+            [67, 44, 30, 8, 9], // Go to Slide10 (index 9)
+            // Consintiendo a un abuel@ - "Organización"
+            [67, 54, 30, 8, 10], // Go to Slide11 (index 10)
+            // Consintiendo a un abuel@ - "Propósito"
+            [67, 64, 30, 8, 11]  // Go to Slide12 (index 11)
         ],
-        // Diapositiva 4 (Índice 3)
-        3: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 5 (Índice 4)
-        4: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 6 (Índice 5)
-        5: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 7 (Índice 6)
-        6: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 8 (Índice 7)
-        7: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 9 (Índice 8)
-        8: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 10 (Índice 9)
-        9: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 11 (Índice 10)
-        10: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 12 (Índice 11)
-        11: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 13 (Índice 12)
-        12: [ [5, 5, 10, 10, 2] ], // Flecha izquierda superior a Slide3 (índice 2)
-        // Diapositiva 14 (Índice 13)
+        // Slides 4-13: Top-left arrow to Slide3
+        3: [ [3, 3, 10, 10, 2] ],
+        4: [ [3, 3, 10, 10, 2] ],
+        5: [ [3, 3, 10, 10, 2] ],
+        6: [ [3, 3, 10, 10, 2] ],
+        7: [ [3, 3, 10, 10, 2] ],
+        8: [ [3, 3, 10, 10, 2] ],
+        9: [ [3, 3, 10, 10, 2] ],
+        10: [ [3, 3, 10, 10, 2] ],
+        11: [ [3, 3, 10, 10, 2] ],
+        12: [ [3, 3, 10, 10, 2] ],
+        // Slide 14 (Index 13)
         13: [
-            [5, 5, 10, 10, 2], // Flecha izquierda superior a Slide3 (índice 2)
-            [85, 45, 10, 10, 14] // Flecha derecha a Slide15 (índice 14)
+            [3, 3, 10, 10, 2], // Top-left arrow to Slide3
+            [87, 45, 10, 10, 14] // Right arrow to Slide15 (index 14)
         ],
-        // Diapositiva 15 (Índice 14): Video de YouTube
+        // Slide 15 (Index 14): YouTube Video
         14: [
-            [5, 45, 10, 10, 13], // Flecha izquierda a Slide14 (índice 13)
-            [20, 20, 60, 60, 'youtube'] // Miniatura de YouTube (clic en el centro) -> acción 'youtube'
+            [3, 45, 10, 10, 13], // Left arrow to Slide14 (index 13)
+            // YouTube thumbnail (click in the center area)
+            [20, 20, 60, 60, 'youtube'] // Special action 'youtube'
         ],
-        // Diapositiva 16 (Índice 15): Redes Sociales
+        // Slide 16 (Index 15): Social Media
         15: [
-            [5, 5, 10, 10, 1], // Flecha izquierda superior a Slide2 (índice 1)
-            [20, 40, 25, 15, 'https://www.facebook.com/cetis107oficial/'], // Facebook
-            [55, 40, 25, 15, 'https://www.instagram.com/cetis107oficial/'], // Instagram
-            [80, 40, 15, 15, 'https://x.com/cetis107'] // Twitter/X
+            [3, 3, 10, 10, 1], // Top-left arrow to Slide2 (index 1)
+            [15, 38, 30, 20, 'https://www.facebook.com/cetis107oficial/'], // Facebook box
+            [50, 38, 30, 20, 'https://www.instagram.com/cetis107oficial/'], // Instagram box
+            [80, 38, 15, 20, 'https://x.com/cetis107'] // Twitter/X box
         ]
-        // Para otras diapositivas que no tienen hotspots específicos, el clic en cualquier parte de la diapositiva
-        // (fuera de los hotspots definidos) hará que avance a la siguiente por defecto.
     };
 
-    // Función para mostrar una diapositiva específica
+    // Function to display a specific slide
     function showSlide(index) {
         if (index >= 0 && index < slides.length) {
             currentSlideIndex = index;
 
-            // Elimina cualquier iframe de video existente antes de mostrar una nueva diapositiva
+            // Remove any existing YouTube iframe before showing a new slide
             const existingIframe = presentationContainer.querySelector('#youtube-iframe');
             if (existingIframe) {
                 existingIframe.remove();
-                // Asegúrate de que la imagen de la diapositiva esté visible de nuevo
+                // Ensure the slide image is visible again
                 currentSlideElement.style.display = 'block';
             }
 
-            currentSlideElement.style.opacity = 0; // Inicia la transición de salida
+            currentSlideElement.style.opacity = 0; // Start fade-out transition
             setTimeout(() => {
                 currentSlideElement.src = slides[currentSlideIndex];
-                currentSlideElement.style.opacity = 1; // Inicia la transición de entrada
-            }, 500); // Coincide con la duración de la transición CSS
+                currentSlideElement.style.opacity = 1; // Start fade-in transition
+            }, 500); // Matches CSS transition duration
         } else if (index >= slides.length) {
-            // Comportamiento al final de la presentación
-            console.log("Fin de la presentación. Reiniciando...");
-            showSlide(0); // Reiniciar al principio
+            // Behavior at the end of the presentation
+            console.log("End of presentation. Restarting...");
+            showSlide(0); // Restart from the beginning
         }
     }
 
-    // Función para verificar si un clic está dentro de un hotspot
+    // Function to check if a click is within a hotspot
     function isClickInHotspot(xPercent, yPercent, hotspots) {
-        if (!hotspots) return null; // No hay hotspots para esta diapositiva
+        if (!hotspots) return null; // No hotspots for this slide
 
         for (const hotspot of hotspots) {
-            const [hx, hy, hw, hh, target] = hotspot; // Coordenadas del hotspot en porcentaje
+            const [hx, hy, hw, hh, target] = hotspot; // Hotspot coordinates in percentage
 
+            // Check if the click is within the hotspot area
             if (xPercent >= hx && xPercent <= (hx + hw) &&
                 yPercent >= hy && yPercent <= (hy + hh)) {
-                return target; // Devuelve el destino del hotspot
+                return target; // Return the hotspot's target
             }
         }
-        return null; // No se hizo clic en ningún hotspot
+        return null; // Click was not on any hotspot
     }
 
-    // Manejador de clics en la imagen de la diapositiva
+    // Click handler on the slide image
     currentSlideElement.addEventListener('click', (event) => {
-        const img = currentSlideElement;
-        const rect = img.getBoundingClientRect(); // Obtiene el tamaño y posición de la imagen visible
+        // If a YouTube iframe is currently active, prevent clicks on the image below it.
+        if (presentationContainer.querySelector('#youtube-iframe')) {
+            return;
+        }
 
-        // Calcula las coordenadas del clic relativas a la imagen (en píxeles)
+        const img = currentSlideElement;
+        const rect = img.getBoundingClientRect(); // Get size and position of the visible image
+
+        // Calculate click coordinates relative to the image (in pixels)
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
 
-        // Convierte las coordenadas del clic a porcentajes relativos al tamaño de la imagen
+        // Convert click coordinates to percentages relative to the image size
         const xPercent = (x / rect.width) * 100;
         const yPercent = (y / rect.height) * 100;
+
+        // FOR DEBUGGING: Keep this line until it works perfectly
+        console.log(`Click en %: X=${xPercent.toFixed(2)}, Y=${yPercent.toFixed(2)}`);
+        // END DEBUGGING
 
         const target = isClickInHotspot(xPercent, yPercent, slideHotspots[currentSlideIndex]);
 
         if (target !== null) {
-            // Se hizo clic en un hotspot
+            // Clicked on a hotspot
             if (typeof target === 'number') {
                 showSlide(target);
             } else if (typeof target === 'string') {
                 if (target === 'youtube') {
-                    // Crea y carga el iframe de YouTube
+                    // Create and load the YouTube iframe
                     const youtubeIframeHtml = `
                         <iframe id="youtube-iframe" src="https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=1&rel=0&modestbranding=1"
                         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
                     `;
                     presentationContainer.innerHTML = youtubeIframeHtml;
-                    // Ocultar la imagen de fondo mientras se ve el video
-                    currentSlideElement.style.display = 'none';
-
+                    currentSlideElement.style.display = 'none'; // Hide the background image while video plays
                 } else {
-                    window.open(target, '_blank'); // Abrir URL en nueva pestaña
+                    window.open(target, '_blank'); // Open URL in new tab
                 }
             }
         } else {
-            // No se hizo clic en ningún hotspot específico, avanza a la siguiente por defecto
-            // Esto solo aplica si no hay hotspots o si se hizo clic fuera de ellos.
+            // No specific hotspot clicked, advance to the next slide by default
+            // This applies if there are no hotspots or if the click was outside them.
             showSlide(currentSlideIndex + 1);
         }
     });
 
-    // Manejador de movimiento del ratón para cambiar el cursor
+    // Mouse move handler to change cursor
     currentSlideElement.addEventListener('mousemove', (event) => {
+        // If a YouTube iframe is active, the cursor should not change on the hidden image.
+        if (presentationContainer.querySelector('#youtube-iframe')) {
+            currentSlideElement.style.cursor = 'default'; // Ensure default cursor when video is playing
+            return;
+        }
+
         const img = currentSlideElement;
         const rect = img.getBoundingClientRect();
 
@@ -210,21 +216,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const xPercent = (x / rect.width) * 100;
         const yPercent = (y / rect.height) * 100;
 
-        // Verifica si el mouse está sobre un hotspot
+        // Check if the mouse is over a hotspot
         const target = isClickInHotspot(xPercent, yPercent, slideHotspots[currentSlideIndex]);
 
         if (target !== null) {
-            currentSlideElement.style.cursor = 'pointer'; // Muestra la manita
+            currentSlideElement.style.cursor = 'pointer'; // Show hand cursor
         } else {
-            currentSlideElement.style.cursor = 'default'; // Vuelve al cursor normal
+            currentSlideElement.style.cursor = 'default'; // Back to normal cursor
         }
     });
 
-    // Precarga todas las imágenes
+    // Preload all images for instant and smooth transitions
     slides.forEach(slideUrl => {
         const img = new Image();
         img.src = slideUrl;
     });
+
+    // Initialize the presentation
+    showSlide(0);
+});
 
     // Inicializa la presentación
     showSlide(0);
