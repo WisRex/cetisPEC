@@ -24,10 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const clickableOverlay = document.getElementById('clickable-overlay');
 
     const youtubeVideoId = 'Ytfg1NRHtqg';
-
-    // Ruta a tu archivo de sonido de clic
-    const clickSoundPath = 'audio/click.mp3'; // <-- ¡AJUSTA ESTA RUTA SI ES DIFERENTE!
-    let clickAudio = new Audio(clickSoundPath); // Crea un objeto de audio
+    const clickSoundPath = 'audio/click.mp3';
+    let clickAudio = new Audio(clickSoundPath);
     clickAudio.volume = 0.5; // Opcional: Ajusta el volumen (0.0 a 1.0)
 
     const slideHotspots = {
@@ -40,7 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
             [25, 34, 50, 12, 2],
             [25, 49, 50, 12, 12],
             [25, 64, 50, 12, 13],
-            [85, 87, 8, 8, 'https://www.youtube.com/watch?v=dQw4w9WgXcQ']
+            [85, 87, 8, 8, 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'],
+            [87, 45, 10, 10, 'https://dos.zone/doom-dec-1993/']
         ],
         2: [
             [3, 3, 10, 10, 1],
@@ -77,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
             [25, 32, 50, 15, 'https://www.facebook.com/cetis107oficial/'],
             [25, 66, 50, 15, 'https://www.instagram.com/cetis107oficial/'],
             [25, 49, 50, 15, 'https://x.com/cetis107']
-
         ]
     };
 
