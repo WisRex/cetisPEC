@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Top-left arrow
             [3, 3, 10, 10, 0], // Go to Slide1 (index 0)
             // Top-right arrow
-            [87, 3, 10, 10, 15], // Go to Slide16 (index 15)
+            [85, 2, 12, 12, 15], // Go to Slide16 (index 15) <-- NUEVA COORDENADA (Más grande y un poco más a la izquierda/arriba)
             // "Áreas de este proyecto..." box
             [25, 34, 50, 12, 2], // Go to Slide3 (index 2)
             // "¿Qué aprendimos de este proyecto?" box
