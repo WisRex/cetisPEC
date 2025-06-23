@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             [85, 4, 12, 12, 15],
             [25, 34, 50, 12, 2],
             [25, 49, 50, 12, 12],
-            [25, 64, 50, 12, 13]
+            [25, 64, 50, 12, 13],
             [90, 85, 8, 8, 'https://www.youtube.com/watch?v=dQw4w9WgXcQ']
         ],
         2: [
