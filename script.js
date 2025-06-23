@@ -23,15 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const presentationContainer = document.getElementById('presentation-container');
     const clickableOverlay = document.getElementById('clickable-overlay');
 
-    const youtubeVideoId = 'Ytfg1NRHtqg';
+    const youtubeVideoId = 'dQw4w9WgXcQ';
 
     const slideHotspots = {
         0: [
-            [42, 80, 20, 10, 1]
+            [40, 80, 20, 10, 1]
         ],
         1: [
             [3, 3, 10, 10, 0],
-            [85, 5, 12, 12, 15],
+            [85, 4, 12, 12, 15],
             [25, 34, 50, 12, 2],
             [25, 49, 50, 12, 12],
             [25, 64, 50, 12, 13]
@@ -67,11 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
             [20, 20, 60, 60, 'youtube']
         ],
         15: [
-            [3, 3, 10, 10, 1], 
+            [3, 3, 10, 10, 1],
             [18, 38, 28, 22, 'https://www.facebook.com/cetis107oficial/'],
             [50, 38, 28, 22, 'https://www.instagram.com/cetis107oficial/'],
             [80, 38, 18, 22, 'https://x.com/cetis107']
-        ]
         ]
     };
 
