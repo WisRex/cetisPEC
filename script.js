@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURACIÓN DE LAS DIAPOSITIVAS ---
-    // Asegúrate de que esta lista contenga las rutas CORRECTAS a tus 16 imágenes.
-    // Los nombres de archivo deben coincidir con los que PowerPoint exportó (ej. 'Slide1.JPG').
-    // La carpeta 'slides/' es donde las subiste en GitHub.
     const slides = [
         'slides/Slide1.JPG',  // Índice 0
         'slides/Slide2.JPG',  // Índice 1
@@ -25,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSlideIndex = 0;
     const currentSlideElement = document.getElementById('current-slide');
     const presentationContainer = document.getElementById('presentation-container');
-    const clickableOverlay = document.getElementById('clickable-overlay');
+    // const clickableOverlay = document.getElementById('clickable-overlay'); // Ya no necesitamos el overlay para detectar clicks generales
 
     // --- CONFIGURACIÓN DEL VIDEO DE YOUTUBE ---
     // ¡IMPORTANTE!: Reemplaza 'dQw4w9WgXcQ' con el ID real de tu video de YouTube.
@@ -116,9 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
             [55, 40, 25, 15, 'https://www.instagram.com/cetis107oficial/'], // Instagram
             [80, 40, 15, 15, 'https://x.com/cetis107'] // Twitter/X
         ]
-        // Para diapositivas 17 en adelante, si las hubiera y tuvieran interactividad,
-        // se añadirían aquí siguiendo el mismo patrón.
-        // Si no tienen interactividad especial, el comportamiento por defecto es avanzar al siguiente clic.
+        // Para otras diapositivas que no tienen hotspots específicos, el clic en cualquier parte de la diapositiva
+        // (fuera de los hotspots definidos) hará que avance a la siguiente por defecto.
     };
 
     // Función para mostrar una diapositiva específica
@@ -126,16 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (index >= 0 && index < slides.length) {
             currentSlideIndex = index;
 
-            // Limpia el contenedor de cualquier iframe de video anterior
-            if (presentationContainer.querySelector('#youtube-iframe')) {
-                presentationContainer.innerHTML = ''; // Limpia todo el contenido del contenedor
-                // Vuelve a agregar la imagen y el overlay
-                presentationContainer.appendChild(currentSlideElement);
-                presentationContainer.appendChild(clickableOverlay);
+            // Elimina cualquier iframe de video existente antes de mostrar una nueva diapositiva
+            const existingIframe = presentationContainer.querySelector('#youtube-iframe');
+            if (existingIframe) {
+                existingIframe.remove();
+                // Asegúrate de que la imagen de la diapositiva esté visible de nuevo
+                currentSlideElement.style.display = 'block';
             }
-            
-            // Asegúrate de que la imagen sea visible de nuevo si se oculta por el video
-            currentSlideElement.style.display = 'block';
 
             currentSlideElement.style.opacity = 0; // Inicia la transición de salida
             setTimeout(() => {
@@ -149,14 +142,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Manejador de clics en el overlay
-    clickableOverlay.addEventListener('click', (event) => {
-        // Si actualmente estamos mostrando el iframe de YouTube, los clics en el overlay no deben hacer nada.
-        // El video tiene sus propios controles o el usuario debe hacer clic fuera del iframe para volver.
-        if (presentationContainer.querySelector('#youtube-iframe')) {
-            return; 
-        }
+    // Función para verificar si un clic está dentro de un hotspot
+    function isClickInHotspot(xPercent, yPercent, hotspots) {
+        if (!hotspots) return null; // No hay hotspots para esta diapositiva
 
+        for (const hotspot of hotspots) {
+            const [hx, hy, hw, hh, target] = hotspot; // Coordenadas del hotspot en porcentaje
+
+            if (xPercent >= hx && xPercent <= (hx + hw) &&
+                yPercent >= hy && yPercent <= (hy + hh)) {
+                return target; // Devuelve el destino del hotspot
+            }
+        }
+        return null; // No se hizo clic en ningún hotspot
+    }
+
+    // Manejador de clics en la imagen de la diapositiva
+    currentSlideElement.addEventListener('click', (event) => {
         const img = currentSlideElement;
         const rect = img.getBoundingClientRect(); // Obtiene el tamaño y posición de la imagen visible
 
@@ -168,62 +170,62 @@ document.addEventListener('DOMContentLoaded', () => {
         const xPercent = (x / rect.width) * 100;
         const yPercent = (y / rect.height) * 100;
 
-        const hotspots = slideHotspots[currentSlideIndex];
+        const target = isClickInHotspot(xPercent, yPercent, slideHotspots[currentSlideIndex]);
 
-        let clickedOnHotspot = false;
+        if (target !== null) {
+            // Se hizo clic en un hotspot
+            if (typeof target === 'number') {
+                showSlide(target);
+            } else if (typeof target === 'string') {
+                if (target === 'youtube') {
+                    // Crea y carga el iframe de YouTube
+                    const youtubeIframeHtml = `
+                        <iframe id="youtube-iframe" src="https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=1&rel=0&modestbranding=1"
+                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                    `;
+                    presentationContainer.innerHTML = youtubeIframeHtml;
+                    // Ocultar la imagen de fondo mientras se ve el video
+                    currentSlideElement.style.display = 'none';
 
-        if (hotspots) {
-            for (const hotspot of hotspots) {
-                const [hx, hy, hw, hh, target] = hotspot; // Coordenadas del hotspot en porcentaje
-
-                // Comprueba si el clic está dentro del área del hotspot
-                if (xPercent >= hx && xPercent <= (hx + hw) &&
-                    yPercent >= hy && yPercent <= (hy + hh)) {
-                    
-                    clickedOnHotspot = true;
-                    // Ejecuta la acción del hotspot
-                    if (typeof target === 'number') {
-                        // Es un índice de diapositiva
-                        showSlide(target);
-                    } else if (typeof target === 'string') {
-                        // Es una URL o una acción especial como 'youtube'
-                        if (target === 'youtube') {
-                            // Carga el iframe de YouTube
-                            const youtubeIframeHtml = `
-                                <iframe id="youtube-iframe" src="https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&controls=1&rel=0&modestbranding=1" 
-                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen></iframe>
-                            `;
-                            presentationContainer.innerHTML = youtubeIframeHtml;
-                            // Ocultar la imagen de fondo mientras se ve el video
-                            currentSlideElement.style.display = 'none';
-
-                            // También puedes considerar añadir un temporizador o un botón para "volver" de la reproducción del video
-                            // Por ahora, el usuario deberá hacer clic en la flecha de la diapositiva para continuar.
-
-                        } else {
-                            // Es una URL, ábrela en una nueva pestaña
-                            window.open(target, '_blank');
-                        }
-                    }
-                    break; // Salir del bucle una vez que se encuentra un hotspot
+                } else {
+                    window.open(target, '_blank'); // Abrir URL en nueva pestaña
                 }
             }
-        }
-
-        // Si no se hizo clic en ningún hotspot específico, avanza a la siguiente diapositiva por defecto
-        // Esto solo ocurre si no hay hotspots en la diapositiva actual o si se hizo clic fuera de ellos.
-        if (!clickedOnHotspot) {
+        } else {
+            // No se hizo clic en ningún hotspot específico, avanza a la siguiente por defecto
+            // Esto solo aplica si no hay hotspots o si se hizo clic fuera de ellos.
             showSlide(currentSlideIndex + 1);
         }
     });
 
-    // Precarga todas las imágenes para una transición instantánea y fluida
+    // Manejador de movimiento del ratón para cambiar el cursor
+    currentSlideElement.addEventListener('mousemove', (event) => {
+        const img = currentSlideElement;
+        const rect = img.getBoundingClientRect();
+
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        const xPercent = (x / rect.width) * 100;
+        const yPercent = (y / rect.height) * 100;
+
+        // Verifica si el mouse está sobre un hotspot
+        const target = isClickInHotspot(xPercent, yPercent, slideHotspots[currentSlideIndex]);
+
+        if (target !== null) {
+            currentSlideElement.style.cursor = 'pointer'; // Muestra la manita
+        } else {
+            currentSlideElement.style.cursor = 'default'; // Vuelve al cursor normal
+        }
+    });
+
+    // Precarga todas las imágenes
     slides.forEach(slideUrl => {
         const img = new Image();
         img.src = slideUrl;
     });
 
-    // Inicializa la presentación mostrando la primera diapositiva
+    // Inicializa la presentación
     showSlide(0);
 });
