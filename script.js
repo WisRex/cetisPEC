@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const slideHotspots = {
         0: [
-            [40, 80, 20, 10, 1]
+            [43, 80, 20, 10, 1]
         ],
         1: [
             [3, 3, 10, 10, 0],
