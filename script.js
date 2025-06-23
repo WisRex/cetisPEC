@@ -67,13 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
             [20, 20, 60, 60, 'youtube']
         ],
          15: [
-            [3, 3, 10, 10, 1], // Top-left arrow to Slide2 (index 1) - Sin cambios
-            // Facebook box - ajustado
-            [18, 38, 28, 22, 'https://www.facebook.com/cetis107oficial/'],
-            // Instagram box - ajustado
-            [50, 38, 28, 22, 'https://www.instagram.com/cetis107oficial/'],
-            // Twitter/X box - ajustado
-            [80, 38, 18, 22, 'https://x.com/cetis107']
+            [3, 3, 10, 10, 1], // Top-left arrow to Slide2 (index 1) - SIN CAMBIOS
+            // Facebook box (Ahora más centrado y amplio para el logo de Facebook)
+            [16, 38, 25, 25, 'https://www.facebook.com/cetis107oficial/'],
+            // Instagram box (Más a la derecha y amplio para el logo de Instagram)
+            [47, 38, 25, 25, 'https://www.instagram.com/cetis107oficial/'],
+            // Twitter/X box (Asegurado que no se solape y sea clicable)
+            [79, 38, 18, 25, 'https://x.com/cetis107']
         ]
     };
 
