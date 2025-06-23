@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } else {
-            showSlide(currentSlideIndex + 1);
+           
         }
     });
 
