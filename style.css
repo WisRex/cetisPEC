@@ -1,19 +1,19 @@
 body {
     margin: 0;
-    overflow: hidden; /* Evita las barras de desplazamiento */
+    overflow: hidden; /* Prevents scrollbars */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #000; /* Fondo negro por defecto si la imagen no carga */
+    background-color: #000; /* Default black background if image not loaded */
     font-family: sans-serif;
-    cursor: default; /* Cursor por defecto para toda la página */
+    cursor: default; /* Default cursor for the entire page */
 }
 
 #presentation-container {
     position: relative;
-    width: 100vw;  /* Ocupa el 100% del ancho de la ventana */
-    height: 100vh; /* Ocupa el 100% del alto de la ventana */
+    width: 100vw;  /* Occupies 100% of viewport width */
+    height: 100vh; /* Occupies 100% of viewport height */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,26 +24,27 @@ body {
     max-height: 100%;
     width: auto;
     height: auto;
-    object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
-    display: block; /* Elimina el espacio extra debajo de la imagen */
-    transition: opacity 0.5s ease-in-out; /* Transición suave entre diapositivas */
-    cursor: default; /* La imagen por sí misma no tendrá la manita por defecto */
+    object-fit: contain; /* Ensures image fits without cropping */
+    display: block; /* Removes extra space below the image */
+    transition: opacity 0.5s ease-in-out; /* Smooth transition between slides */
+    cursor: default; /* The image itself will not have the 'hand' cursor by default */
 }
 
-/* El #clickable-overlay ya no será el que detecte el click general.
-   Ahora lo usaremos para detectar clics en toda la diapositiva si no hay hotspots,
-   y manejaremos el cursor con JavaScript para solo mostrarlo sobre los hotspots. */
+/* The clickable-overlay is no longer for general click detection.
+   It's still present in HTML but its CSS is irrelevant for cursor/click detection
+   as we are now directly listening on #current-slide */
 #clickable-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* Eliminamos cursor: pointer aquí */
-    z-index: 10; /* Asegura que esté por encima de la imagen */
+    /* No cursor: pointer here. Cursor is handled by JS on #current-slide */
+    z-index: 10; /* Ensures it's above the image, though its function changed */
+    pointer-events: none; /* Make it transparent to mouse events, so clicks pass through to #current-slide */
 }
 
-/* Estilos para el iframe de YouTube */
+/* Styles for the YouTube iframe */
 #youtube-iframe {
     width: 100%;
     height: 100%;
@@ -52,5 +53,5 @@ body {
     left: 0;
     border: none;
     background-color: black;
-    z-index: 9;
+    z-index: 9; /* Behind the overlay, but above the image */
 }
