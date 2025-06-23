@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const youtubeVideoId = 'dQw4w9WgXcQ';
 
+    // Ruta a tu archivo de sonido de clic
+    const clickSoundPath = 'audio/click.mp3'; // <-- ¡AJUSTA ESTA RUTA SI ES DIFERENTE!
+    let clickAudio = new Audio(clickSoundPath); // Crea un objeto de audio
+    clickAudio.volume = 0.5; // Opcional: Ajusta el volumen (0.0 a 1.0)
+
     const slideHotspots = {
         0: [
             [43, 80, 20, 10, 1]
@@ -129,6 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = isClickInHotspot(xPercent, yPercent, slideHotspots[currentSlideIndex]);
 
         if (target !== null) {
+             clickAudio.currentTime = 0; // Reinicia el sonido al principio si ya está sonando
+             clickAudio.play().catch(e => console.error("Error al reproducir el sonido:", e));
             if (typeof target === 'number') {
                 showSlide(target);
             } else if (typeof target === 'string') {
