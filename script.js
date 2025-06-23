@@ -67,10 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
             [20, 20, 60, 60, 'youtube']
         ],
         15: [
-            [3, 3, 10, 10, 1],
-            [15, 38, 30, 20, 'https://www.facebook.com/cetis107oficial/'],
-            [50, 38, 30, 20, 'https://www.instagram.com/cetis107oficial/'],
-            [70, 38, 15, 20, 'https://x.com/cetis107']
+            [3, 3, 10, 10, 1], 
+            [18, 38, 28, 22, 'https://www.facebook.com/cetis107oficial/'],
+            [50, 38, 28, 22, 'https://www.instagram.com/cetis107oficial/'],
+            [80, 38, 18, 22, 'https://x.com/cetis107']
+        ]
         ]
     };
 
