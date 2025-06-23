@@ -75,11 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Hotspot para INSTAGRAM (el de en medio)
             // Calculado a partir de la imagen: centrado sobre el logo y texto de Instagram
-            [25, 49, 50, 15, 'https://www.instagram.com/cetis107oficial/'],
+            [25, 66, 50, 15, 'https://www.instagram.com/cetis107oficial/'],
 
             // Hotspot para X/TWITTER (el de abajo)
             // Calculado a partir de la imagen: centrado sobre el logo y texto de Twitter/X
-            [25, 66, 50, 15, 'https://x.com/cetis107']
+            [25, 49, 50, 15, 'https://x.com/cetis107']
 
         ]
     };
